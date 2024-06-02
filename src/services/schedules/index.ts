@@ -1,1 +1,1 @@
-export * from './schedules.service';
+export * from './food-api';

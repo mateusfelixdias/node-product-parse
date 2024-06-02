@@ -10,7 +10,7 @@ export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductDto) {
     const result = await this.productRepository.insert(createProductDto);
@@ -18,6 +18,16 @@ export class ProductService {
     const _id = identifiers[0]._id;
 
     return { ...createProductDto, _id };
+  }
+
+  async createMany(createProductsDto: CreateProductDto[]) {
+    const result = await this.productRepository.insert(createProductsDto);
+    const { identifiers } = result;
+
+    return createProductsDto.map((product, index) => ({
+      ...product,
+      _id: identifiers[index]._id,
+    }));
   }
 
   async index(paginationQuery?: PaginationQueryDto) {
