@@ -16,7 +16,7 @@ export class ProductService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     private readonly elasticsearchService: ElasticSearchService,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductDto) {
     try {
@@ -33,6 +33,16 @@ export class ProductService {
       console.error(error.meta.body);
       throw new InternalServerErrorException();
     }
+  }
+
+  async createMany(createProductsDto: CreateProductDto[]) {
+    const result = await this.productRepository.insert(createProductsDto);
+    const { identifiers } = result;
+
+    return createProductsDto.map((product, index) => ({
+      ...product,
+      _id: identifiers[index]._id,
+    }));
   }
 
   async index(paginationQuery?: PaginationQueryDto) {
