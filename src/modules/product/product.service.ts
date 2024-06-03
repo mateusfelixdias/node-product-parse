@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product, STATUS_PRODUCT } from './entities/product.entity';
 import { PaginationQueryDto } from '@common/dto/pagination-query.dto';
-import { ElasticSearchService } from '../elastic-search/elastic-search.service';
 import {
   Injectable,
   NotFoundException,
@@ -15,7 +14,6 @@ export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-    private readonly elasticsearchService: ElasticSearchService,
   ) { }
 
   async create(createProductDto: CreateProductDto) {
@@ -25,8 +23,6 @@ export class ProductService {
       const _id = identifiers[0]._id;
 
       const product = { ...createProductDto, _id };
-
-      // await this.elasticsearchService.indexDocument('products', product);
 
       return product;
     } catch (error) {

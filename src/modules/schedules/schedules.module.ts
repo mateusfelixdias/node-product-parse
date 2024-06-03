@@ -18,8 +18,6 @@ import { ElasticsearchService } from '@nestjs/elasticsearch';
   providers: [
     SchedulesService,
     ProductService,
-    ElasticsearchService,
-    ElasticSearchService
   ],
 })
 export class SchedulesModule { }
