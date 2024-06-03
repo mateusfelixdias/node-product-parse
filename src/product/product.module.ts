@@ -1,12 +1,17 @@
-import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { ProductService } from './product.service';
+import { Module, forwardRef } from '@nestjs/common';
 import { ProductController } from './product.controller';
+import { CustomElasticsearchModule } from '../elastic-search/elastic-search.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product]), ConfigModule],
+  imports: [
+    ConfigModule,
+    TypeOrmModule.forFeature([Product]),
+    forwardRef(() => CustomElasticsearchModule),
+  ],
   controllers: [ProductController],
   providers: [ProductService],
   exports: [ProductService],

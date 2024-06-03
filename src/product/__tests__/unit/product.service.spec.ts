@@ -1,11 +1,12 @@
 import { ObjectId } from 'mongodb';
 import { Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductService } from '../../product.service';
 import { productsMocks as mocks } from '../../../mocks';
+import { NotFoundException, forwardRef } from '@nestjs/common';
 import { Product, STATUS_PRODUCT } from '../../entities/product.entity';
+import { CustomElasticsearchModule } from '../../../elastic-search/elastic-search.module';
 
 describe('ProductService Unit Tests', () => {
   let service: ProductService;
@@ -24,6 +25,7 @@ describe('ProductService Unit Tests', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [forwardRef(() => CustomElasticsearchModule)],
       providers: [
         ProductService,
         {

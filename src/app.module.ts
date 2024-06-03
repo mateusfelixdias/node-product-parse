@@ -8,9 +8,12 @@ import { AppController } from './app.controller';
 import { ormConfig } from '@database/config/ormconfig';
 import { ProductModule } from './product/product.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { CustomElasticsearchModule } from './elastic-search/elastic-search.module';
 
 @Module({
   imports: [
+    ProductModule,
+    CustomElasticsearchModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(ormConfig() as TypeOrmModuleOptions),
     ScheduleModule.forRoot(),

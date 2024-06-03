@@ -1,7 +1,7 @@
 FROM node:20.13.1-alpine3.18 as builder
 
 # Install PM2
-RUN npm install -g pm2
+RUN yarn global add pm2
 
 # Set working directory
 RUN mkdir -p /var/www/nest-demo
@@ -16,18 +16,16 @@ RUN adduser --disabled-password demo
 COPY . /var/www/nest-demo
 # install and cache app dependencies
 COPY package.json /var/www/nest-demo/package.json
-COPY package-lock.json /var/www/nest-demo/package-lock.json
+COPY yarn.lock /var/www/nest-demo/yarn.lock
 
 # grant a permission to the application
 RUN chown -R demo:demo /var/www/nest-demo
 USER demo
 
-# clear application caching
-RUN npm cache clean --force
 # install all dependencies
-RUN npm install --force
+RUN yarn install
 
 EXPOSE 3002
 
 #CMD ./setup-dev.sh
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "yarn", "run", "start:dev" ]

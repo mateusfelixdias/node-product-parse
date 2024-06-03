@@ -1,23 +1,38 @@
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product, STATUS_PRODUCT } from './entities/product.entity';
 import { PaginationQueryDto } from '@common/dto/pagination-query.dto';
+import { ElasticSearchService } from '../elastic-search/elastic-search.service';
+import {
+  Injectable,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    private readonly elasticsearchService: ElasticSearchService,
   ) { }
 
   async create(createProductDto: CreateProductDto) {
-    const result = await this.productRepository.insert(createProductDto);
-    const { identifiers } = result;
-    const _id = identifiers[0]._id;
+    try {
+      const result = await this.productRepository.insert(createProductDto);
+      const { identifiers } = result;
+      const _id = identifiers[0]._id;
 
-    return { ...createProductDto, _id };
+      const product = { ...createProductDto, _id };
+
+      // await this.elasticsearchService.indexDocument('products', product);
+
+      return product;
+    } catch (error) {
+      console.error(error.meta.body);
+      throw new InternalServerErrorException();
+    }
   }
 
   async createMany(createProductsDto: CreateProductDto[]) {
