@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductService } from '../../product.service';
-import { productsMocks as mocks } from '../../../mocks';
+import { productsMocks as mocks } from '../../../../mocks';
 import { NotFoundException, forwardRef } from '@nestjs/common';
 import { Product, STATUS_PRODUCT } from '../../entities/product.entity';
 import { CustomElasticsearchModule } from '../../../elastic-search/elastic-search.module';

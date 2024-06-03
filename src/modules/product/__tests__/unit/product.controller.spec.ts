@@ -1,4 +1,4 @@
-import { productsMocks } from '../../../mocks';
+import { productsMocks } from '../../../../mocks';
 import { ProductService } from '../../product.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductController } from '../../product.controller';

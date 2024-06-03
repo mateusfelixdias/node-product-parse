@@ -20,6 +20,6 @@ export const formatProductData = (data: any): any => {
     nutriscore_grade: data.nutriscore_grade,
     main_category: data.main_category,
     image_url: data.image_url,
-    code: data.code// Remover aspas no início e fim e converter para número
+    code: data.code
   };
 };
