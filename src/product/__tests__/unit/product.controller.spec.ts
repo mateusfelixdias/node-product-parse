@@ -4,7 +4,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductController } from '../../product.controller';
 import { STATUS_PRODUCT } from '../../entities/product.entity';
 import { CreateProductDto } from '../../dto/create-product.dto';
+import { CustomElasticsearchModule } from '../../../elastic-search/elastic-search.module';
 import {
+  forwardRef,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -29,6 +31,7 @@ describe('ProductController Unit Tests', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProductController],
+      imports: [forwardRef(() => CustomElasticsearchModule)],
       providers: [
         {
           provide: ProductService,
