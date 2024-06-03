@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
-import { SchedulesModule } from './schedules/schedules.module';
+import { SchedulesModule } from './modules/schedules/schedules.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { SchedulesService } from './schedules/schedules.service';
+import { SchedulesService } from './modules/schedules/schedules.service';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { ormConfig } from '@database/config/ormconfig';
-import { ProductModule } from './product/product.module';
+import { ProductModule } from './modules/product/product.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { CustomElasticsearchModule } from './elastic-search/elastic-search.module';
+import { CustomElasticsearchModule } from './modules/elastic-search/elastic-search.module';
 
 @Module({
   imports: [

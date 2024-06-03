@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { ProductService } from '../product/product.service';
 import { fileNameRequest } from './requests/list-files.request';
 import { getFileRequest } from './requests/get-file.request';
@@ -11,7 +11,7 @@ export class SchedulesService {
     private productsService: ProductService,
   ) { }
 
-  @Cron(CronExpression.EVERY_30_MINUTES)
+  @Cron('0 0 * * *') // runs every day at midnight
   async handleProductsCron() {
     await this.importProducts();
   }
@@ -21,7 +21,7 @@ export class SchedulesService {
       const { data } = await fileNameRequest(nextUrl);
       const files = data.split("\n");
 
-      const result = await Promise.all(files.map(async (fileName: string) => {
+      return await Promise.all(files.map(async (fileName: string) => {
         if (!fileName.trim()) return;
         const fileContent = await getFileRequest("/food/data/json/", fileName);
         const formattedItems = fileContent.map(formatProductData);
@@ -30,10 +30,6 @@ export class SchedulesService {
 
         return formattedItems;
       }));
-
-      console.log(result);
-
-      return;
     } catch (err) {
       console.error(err);
     }
