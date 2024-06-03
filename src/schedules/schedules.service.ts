@@ -3,7 +3,7 @@ import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
 import { ProductService } from '../product/product.service';
 import { fileNameRequest } from './requests/list-files.request';
 import { getFileRequest } from './requests/get-file.request';
-import { formatProductData } from './utils/format-product-data'; // Supondo que você colocou a função de formatação em um arquivo separado
+import { formatProductData } from './utils/format-product-data';
 
 @Injectable()
 export class SchedulesService {
